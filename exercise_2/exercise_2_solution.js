@@ -52,7 +52,8 @@ function drawHand() {
 
 function drawAceOfSpades() {
   // Your work goes here
-
+  // This works as well - CHAT GPT version
+  /*
   let deckId = document.getElementById("deck").textContent;
   fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=52`)
     .then((response) => response.json())
@@ -73,9 +74,10 @@ function drawAceOfSpades() {
     })
     .catch((error) => {
       console.error("Error:", error);
-    });
-  /*     -------------- My initial attemp ---- Why does deck doesn't update to new deck?--- 
-  let NewDeckId = document.getElementById("deck").textContent;
+    });*/
+  //-------------- My initial attemp ----
+  // Create a new deck with only one card in it - Ace of Spades is the card
+  let NewDeckId = 1;
   // Create new deck and put only AS in it
   fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?cards=AS")
     .then((response) => response.json())
@@ -83,6 +85,7 @@ function drawAceOfSpades() {
       console.log(data);
       // Extract the deck ID from the response
       const deckId = data.deck_id;
+      NewDeckId = data.deck_id;
       // Print the deck ID
       console.log(`NEW Deck ID: ${NewDeckId}`);
       deck.textContent = data.deck_id;
@@ -91,13 +94,28 @@ function drawAceOfSpades() {
       console.error("Error:", error);
     });
 
-  // wait 5 seconds to process new deck request
+  // wait 5 seconds to process new deck request and Draw that one card (AS)
   setTimeout(() => {
+    fetch(`https://deckofcardsapi.com/api/deck/${NewDeckId}/draw/?count=1`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        var hand = document.getElementById("aceofSpades");
+        hand.innerHTML = "";
+        data.cards.forEach((card) => {
+          var image = document.createElement("img");
+          image.src = card.image;
+          hand.appendChild(image);
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     console.log("Waited 5 seconds!");
   }, 5000);
 
   // Draw that one card - AS
-  fetch(`https://deckofcardsapi.com/api/deck/${NewDeckId}/draw/?count=1`)
+  /* fetch(`https://deckofcardsapi.com/api/deck/${NewDeckId}/draw/?count=1`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -111,6 +129,5 @@ function drawAceOfSpades() {
     })
     .catch((error) => {
       console.error("Error:", error);
-    });
-    */
+    }); */
 }
